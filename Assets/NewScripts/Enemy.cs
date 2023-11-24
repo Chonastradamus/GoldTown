@@ -22,7 +22,8 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        GP.Detection += goposition;
+        //        GP.Detection += goposition;
+        GameManager.instance.Call += goposition;
     }
 
     void Update()
@@ -40,10 +41,12 @@ public class Enemy : MonoBehaviour
 
             if (!seen)
             {
-                GP.LocationPlayer(target.position);
+                GameManager.instance.Call(target.position);
+                //GP.LocationPlayer(target.position);
                 seen = true;
             }
         }
+
             transform.position += _velocity * Time.deltaTime;
             transform.forward = _velocity;
     }
@@ -122,10 +125,10 @@ public class Enemy : MonoBehaviour
     {
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
     }
-/*
+
     public void goposition(Vector3 pos)
     {
         
     }
-*/
+
 }

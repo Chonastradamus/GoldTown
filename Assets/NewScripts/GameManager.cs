@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     Node _startingNode;
     Node _goalNode;
 
-    public event Action<Vector3> Call;
+    public Action<Vector3> Call;
 
     private void Awake()
     {
