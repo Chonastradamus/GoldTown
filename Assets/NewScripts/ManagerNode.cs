@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ManagerNode : MonoBehaviour
 {
-    public Node[] neighbours;
+    public static ManagerNode Instance;
+    public Node[] NodosInScene;
 
-    private void Start()
+    private void Awake()
     {
-        foreach (var item in neighbours)
-        {
-           // usar line of sight para que busque los nodos cerca de el y que depsues
-           // de toda este array de nodos cunado se active los nodos busque el nodo mas cercano.
-        }
+        Instance = this;
     }
+
+
+
 }

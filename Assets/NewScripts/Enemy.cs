@@ -25,23 +25,26 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (!InFov(target))
+        if (InFov(target))
         {
-            Waypoints();
-            print("no te veo");
-            seen = false;
-        }
-        else
-        {
+           
             Debug.Log("te Veo");
             AddForce(Seek(target.position));
 
             if (!seen)
             {
                 GameManager.instance.Call(target.position);
+
+              //Pathfinding.instance.CalculateAStar(this.transform.position,)
                 //GP.LocationPlayer(target.position);
                 seen = true;
             }
+        }
+        else
+        {
+            Waypoints();
+            print("no te veo");
+            seen = false;
         }
 
             transform.position += _velocity * Time.deltaTime;
