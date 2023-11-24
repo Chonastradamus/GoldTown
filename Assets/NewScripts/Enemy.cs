@@ -15,9 +15,6 @@ public class Enemy : MonoBehaviour
     Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
     int _actualIndex;
-
-    public GivePosition GP;
-
     bool seen ;
 
     void Awake()
@@ -114,10 +111,10 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, distance);
 
 
-        Vector3 lineA = GetVectorFromAngle(distance * 0.5f + transform.eulerAngles.y);
-        Vector3 lineB = GetVectorFromAngle(-distance * 0.5f + transform.eulerAngles.y);
-        Gizmos.DrawLine(transform.position, transform.position + lineA * ViewAngle);
-        Gizmos.DrawLine(transform.position, transform.position + lineB * ViewAngle);
+        Vector3 lineA = GetVectorFromAngle(ViewAngle * 0.5f + transform.eulerAngles.y);
+        Vector3 lineB = GetVectorFromAngle(-ViewAngle * 0.5f + transform.eulerAngles.y);
+        Gizmos.DrawLine(transform.position, transform.position + lineA * distance);
+        Gizmos.DrawLine(transform.position, transform.position + lineB * distance);
 
     }
 
