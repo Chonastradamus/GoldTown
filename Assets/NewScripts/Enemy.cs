@@ -18,24 +18,32 @@ public class Enemy : MonoBehaviour
     bool seen ;
     FSM_Manager _FSM;
 
+    public GivePosition _giviPosition;
+
+
     void Awake()
     {
-        //        GP.Detection += goposition;
-        // GameManager.instance.Call += goposition;
+        _giviPosition.Detection += InFov;
+         GameManager.instance.Call += goposition;
 
         _FSM = new FSM_Manager();
 
         _FSM.CreateState("idle", new thepath(_FSM));
-        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
-        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity,maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle, _giviPosition));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle, _giviPosition));
         _FSM.ChangeState("Patrol");
     }
 
     void Update()
     {
         _FSM.execute();
-/*
         if (InFov(target))
+        {
+            GameManager.instance.Call(target.position);
+            //_giviPosition.Detection(target.transform);
+        }
+
+/*
         {
             _FSM.ChangeState("Hunt");
             /* Debug.Log("te Veo");
@@ -97,7 +105,7 @@ public class Enemy : MonoBehaviour
         _velocity += dir;
     }
 
-    /*#region Infov
+    #region Infov
     public bool InFov(Transform obj)
     {
         var dir =  obj.position - transform.position;
@@ -135,7 +143,7 @@ public class Enemy : MonoBehaviour
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
     }
     #endregion Infov
-    */
+    
 
     public void Calling(Vector3 position)
     {

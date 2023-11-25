@@ -5,10 +5,10 @@ using UnityEngine;
 public class GivePosition : MonoBehaviour
 {
 
-    public delegate void DetectionEvent(Vector3 posi);
-    public event DetectionEvent Detection;
+    public delegate bool DetectionEvent(Transform posi);
+    public DetectionEvent Detection;
 
-   public void LocationPlayer(Vector3 pos)
+   public void LocationPlayer(Transform pos)
    {
        Debug.Log("dando info");
        Detection(pos);

@@ -13,7 +13,9 @@ public class Hunt :  Istate
     Vector3 _Velocity;
     float _distance, _ViewAngle;
 
-    public Hunt(FSM_Manager fsm, Transform TA, float MV, float MF, Transform MP, int AI, Vector3 V, float DIS, float VIA)
+    GivePosition _GivePosition;
+
+    public Hunt(FSM_Manager fsm, Transform TA, float MV, float MF, Transform MP, int AI, Vector3 V, float DIS, float VIA, GivePosition GP)
     {
         fSM_ = fsm;
         _target = TA;
@@ -24,17 +26,19 @@ public class Hunt :  Istate
         _Velocity = V;
         _distance = DIS;
         _ViewAngle = VIA;
+        _GivePosition = GP;
     }
     public void onEnter()
     {
         Debug.Log(" follow the enemy ");
+
     }
 
     public void onUpdate()
     {
-        if (!InFov(_target))
+        if (!_GivePosition.Detection(_target.transform))
             fSM_.ChangeState("Patrol");
-        else
+        else //if(_GivePosition.Detection(_target.transform))
             AddForce(Seek(_target.position));
 
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
@@ -65,7 +69,7 @@ public class Hunt :  Istate
         return steering;
     }
 
-    public bool InFov(Transform obj)
+   /* public bool InFov(Transform obj)
     {
         var dir = obj.position - _MyPosition.transform.position;
         if (dir.magnitude < _distance)
@@ -96,5 +100,5 @@ public class Hunt :  Istate
     Vector3 GetVectorFromAngle(float angle)
     {
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
-    }
+    }*/
 }

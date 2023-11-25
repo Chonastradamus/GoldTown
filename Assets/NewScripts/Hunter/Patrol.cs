@@ -14,7 +14,9 @@ public class Patrol : Istate
     Vector3 _Velocity;
     float _distance, _ViewAngle;
 
-    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform TA ,float MV, float MF, Transform MP, int AI, Vector3 V, float DIS, float VIA)
+    GivePosition _GivePosition;
+
+    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform TA ,float MV, float MF, Transform MP, int AI, Vector3 V, float DIS, float VIA, GivePosition GP)
     {
         fSM_ = fsm;
         _Waypoints = _WP;
@@ -26,18 +28,19 @@ public class Patrol : Istate
         _Velocity = V;
         _distance = DIS;
         _ViewAngle = VIA;
+        _GivePosition = GP;
     }
     public void onEnter()
     {
         Debug.Log(" Patroling the area ");
 
-        Debug.Log("velocidad" + _maxVelocity);
-        Debug.Log("maxforce" + _maxForce);
+        /*Debug.Log("velocidad" + _maxVelocity);
+        Debug.Log("maxforce" + _maxForce);*/
     }
 
     public void onUpdate()
     {
-        if (InFov(_target))
+        if (_GivePosition.Detection(_target.transform))
             fSM_.ChangeState("Hunt");
         else
             Waypoints();
@@ -85,7 +88,7 @@ public class Patrol : Istate
         return steering;
     }
 
-    public bool InFov(Transform obj)
+    /*public bool InFov(Transform obj)
     {
         var dir = obj.position - _MyPosition.transform.position;
         if (dir.magnitude < _distance)
@@ -116,5 +119,5 @@ public class Patrol : Istate
     Vector3 GetVectorFromAngle(float angle)
     {
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
-    }
+    }*/
 }
