@@ -6,6 +6,7 @@ public class Pathfinding : MonoBehaviour
 {
     public static Pathfinding instance;
 
+
     private void Awake()
     {
         instance = this;
@@ -173,5 +174,25 @@ public class Pathfinding : MonoBehaviour
 
 
     }
+
+    public bool InFov(Transform obj,Transform myPosition, float distance,float viewAgle)
+    {
+        var dir = obj.position - myPosition.position;
+
+        if (dir.magnitude < distance)
+        {
+
+            // calcula el angulo entre yo mirando adelante y la posicion del jugador y si este es menor o igual a un angulo que dicemos de los dos lados
+            if (Vector3.Angle(transform.forward, dir) <= viewAgle * 0.5)
+            {
+                return GameManager.instance.InLineOfSight(transform.position, obj.position);
+            }
+        }
+
+
+        return false;
+    }
+
+
 
 }

@@ -16,19 +16,21 @@ public class Patrol : Istate
 
     GivePosition _GivePosition;
 
-    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform TA ,float MV, float MF, Transform MP, int AI, Vector3 V, float DIS, float VIA, GivePosition GP)
+
+    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform Target ,float MaxVelocity, float MaxForce, Transform EnemyPosition, int ActualIndex, Vector3 Velocity, float Distance, float ViewAngle)
     {
         fSM_ = fsm;
+
         _Waypoints = _WP;
-        _target = TA;
-        _maxForce = MF;
-        _maxVelocity = MV;
-        _MyPosition = MP;
-        _actualIndex = AI;
-        _Velocity = V;
-        _distance = DIS;
-        _ViewAngle = VIA;
-        _GivePosition = GP;
+        _target = Target;
+        _maxForce = MaxForce;
+        _maxVelocity = MaxVelocity;
+        _MyPosition = EnemyPosition;
+        _actualIndex = ActualIndex;
+        _Velocity = Velocity;
+        _distance = Distance;
+        _ViewAngle = ViewAngle;
+        
     }
     public void onEnter()
     {
@@ -40,11 +42,10 @@ public class Patrol : Istate
 
     public void onUpdate()
     {
-        if (_GivePosition.Detection(_target.transform))
+        if (Pathfinding.instance.InFov(_target, _MyPosition,_distance,_ViewAngle))
             fSM_.ChangeState("Hunt");
-        else
+       else
             Waypoints();
-
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
         _MyPosition.transform.forward = _Velocity;
     }
@@ -53,7 +54,7 @@ public class Patrol : Istate
     {
         Debug.Log(" I see a enemy ");
     }
-
+    
     public void Waypoints()
     {
         AddForce(Seek(_Waypoints[_actualIndex].position));
@@ -88,36 +89,4 @@ public class Patrol : Istate
         return steering;
     }
 
-    /*public bool InFov(Transform obj)
-    {
-        var dir = obj.position - _MyPosition.transform.position;
-        if (dir.magnitude < _distance)
-        {
-            // calcula el angulo entre yo mirando adelante y la posicion del jugador y si este es menor o igual a un angulo que dicemos de los dos lados
-            if (Vector3.Angle(_MyPosition.transform.forward, dir) <= _ViewAngle * 0.5)
-            {
-                return GameManager.instance.InLineOfSight(_MyPosition.transform.position, obj.position);
-            }
-        }
-        return false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-
-        Gizmos.DrawWireSphere(_MyPosition.transform.position, _distance);
-
-
-        Vector3 lineA = GetVectorFromAngle(_ViewAngle * 0.5f + _MyPosition.transform.eulerAngles.y);
-        Vector3 lineB = GetVectorFromAngle(-_ViewAngle * 0.5f + _MyPosition.transform.eulerAngles.y);
-        Gizmos.DrawLine(_MyPosition.transform.position, _MyPosition.transform.position + lineA * _distance);
-        Gizmos.DrawLine(_MyPosition.transform.position, _MyPosition.transform.position + lineB * _distance);
-
-    }
-
-    Vector3 GetVectorFromAngle(float angle)
-    {
-        return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
-    }*/
 }

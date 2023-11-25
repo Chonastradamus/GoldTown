@@ -47,12 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4488777d0696cc442b8fdce80b3007d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 50
-  ViewAngle: 5
+  distance: 10
+  ViewAngle: 50
   target: {fileID: 0}
-  waypoints: []
-  maxVelocity: 0
-  maxForce: 0
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maxVelocity: 5
+  maxForce: 1
 --- !u!114 &6551367597679721151
 MonoBehaviour:
   m_ObjectHideFlags: 0
