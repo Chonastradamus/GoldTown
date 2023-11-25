@@ -22,28 +22,29 @@ public class Enemy : MonoBehaviour
     {
         //        GP.Detection += goposition;
         // GameManager.instance.Call += goposition;
-
+        /*
         _FSM = new FSM_Manager();
 
         _FSM.CreateState("idle", new Idel(_FSM));
         _FSM.CreateState("Patrol", new Patrol(_FSM));
         _FSM.CreateState("Hunt", new Hunt(_FSM));
-        _FSM.ChangeState("idle");
+        _FSM.ChangeState("idle");*/
     }
 
     void Update()
     {
-        _FSM.execute();
-/*
+       // _FSM.execute();
+
+                
         if (InFov(target))
         {
-            _FSM.ChangeState("Hunt");
-            /* Debug.Log("te Veo");
+            //_FSM.ChangeState("Hunt");
+             Debug.Log("te Veo");
              AddForce(Seek(target.position));
 
              if (!seen)
              {
-                 GameManager.instance.Call(target.position);
+                // GameManager.instance.Call(target.position);
 
                //Pathfinding.instance.CalculateAStar(this.transform.position,)
                  //GP.LocationPlayer(target.p3osition);
@@ -52,13 +53,14 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-          
+            Waypoints();
+
             print("no te veo");
             seen = false;
         }
         transform.position += _velocity * Time.deltaTime;
             transform.forward = _velocity;
-        */
+        
 
         
     }
