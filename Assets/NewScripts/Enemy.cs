@@ -26,8 +26,8 @@ public class Enemy : MonoBehaviour
         _FSM = new FSM_Manager();
 
         _FSM.CreateState("idle", new thepath(_FSM));
-        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target, maxForce, maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
-        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxForce, maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity,maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
         _FSM.ChangeState("Patrol");
     }
 
@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
         desired.Normalize();
         desired *= maxVelocity;
 
-        var steering = desired - _velocity;
+        var steering = desired - _velocity *10;
         steering = Vector3.ClampMagnitude(steering, maxForce);
 
         Debug.Log("seek");
