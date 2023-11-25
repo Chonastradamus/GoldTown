@@ -42,10 +42,14 @@ public class Patrol : Istate
 
     public void onUpdate()
     {
-        if (Pathfinding.instance.InFov(_target, _MyPosition,_distance,_ViewAngle))
+        if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
+        {
             fSM_.ChangeState("Hunt");
-       else
+        }
+        else
+        {
             Waypoints();
+        }
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
         _MyPosition.transform.forward = _Velocity;
     }
