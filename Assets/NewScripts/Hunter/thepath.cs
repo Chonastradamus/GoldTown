@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idel : Istate
+public class thepath : Istate
 {
      FSM_Manager _fsm;
      Transform House;
     float counter;
 
-    public Idel(FSM_Manager fsm)
+    public thepath(FSM_Manager fsm)
     {
         _fsm = fsm;
     }

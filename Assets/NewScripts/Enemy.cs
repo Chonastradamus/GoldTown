@@ -25,10 +25,10 @@ public class Enemy : MonoBehaviour
 
         _FSM = new FSM_Manager();
 
-        _FSM.CreateState("idle", new Idel(_FSM));
-        _FSM.CreateState("Patrol", new Patrol(_FSM));
-        _FSM.CreateState("Hunt", new Hunt(_FSM));
-        _FSM.ChangeState("idle");
+        _FSM.CreateState("idle", new thepath(_FSM));
+        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target, maxForce, maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxForce, maxVelocity, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.ChangeState("Patrol");
     }
 
     void Update()
@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour
         _velocity += dir;
     }
 
-    #region Infov
+    /*#region Infov
     public bool InFov(Transform obj)
     {
         var dir =  obj.position - transform.position;
@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
     }
     #endregion Infov
-
+    */
 
     public void Calling(Vector3 position)
     {

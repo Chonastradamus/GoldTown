@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Hunter : MonoBehaviour
 {
-    FSM_Manager _FSM;
+    /*FSM_Manager _FSM;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +21,5 @@ public class Hunter : MonoBehaviour
     void Update()
     {
         _FSM.execute();
-    }
+    }*/
 }
