@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class FSM_Manager 
 {
+  
     Dictionary<string, Istate> _states = new Dictionary<string, Istate>();
     Istate _actualState;
+
+
+
    public void CreateState(string name ,Istate state)
     {
         if (! _states.ContainsKey(name))

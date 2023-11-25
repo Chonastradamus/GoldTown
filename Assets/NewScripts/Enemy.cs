@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         
-         GameManager.instance.Call += goposition;
+        // GameManager.instance.Call += goposition;
 
         _FSM = new FSM_Manager();
 
