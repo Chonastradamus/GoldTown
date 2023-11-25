@@ -16,41 +16,53 @@ public class Enemy : MonoBehaviour
     public Vector3 Velocity { get { return _velocity; } }
     int _actualIndex;
     bool seen ;
+    FSM_Manager _FSM;
 
     void Awake()
     {
         //        GP.Detection += goposition;
-        GameManager.instance.Call += goposition;
+        // GameManager.instance.Call += goposition;
+
+        _FSM = new FSM_Manager();
+
+        _FSM.CreateState("idle", new Idel(_FSM));
+        _FSM.CreateState("Patrol", new Patrol(_FSM));
+        _FSM.CreateState("Hunt", new Hunt(_FSM));
+        _FSM.ChangeState("idle");
     }
 
     void Update()
     {
+        _FSM.execute();
+/*
         if (InFov(target))
         {
-           
-            Debug.Log("te Veo");
-            AddForce(Seek(target.position));
+            _FSM.ChangeState("Hunt");
+            /* Debug.Log("te Veo");
+             AddForce(Seek(target.position));
 
-            if (!seen)
-            {
-                GameManager.instance.Call(target.position);
+             if (!seen)
+             {
+                 GameManager.instance.Call(target.position);
 
-              //Pathfinding.instance.CalculateAStar(this.transform.position,)
-                //GP.LocationPlayer(target.position);
-                seen = true;
-            }
+               //Pathfinding.instance.CalculateAStar(this.transform.position,)
+                 //GP.LocationPlayer(target.p3osition);
+                 seen = true;
+             }
         }
         else
         {
-            Waypoints();
+          
             print("no te veo");
             seen = false;
         }
-
-            transform.position += _velocity * Time.deltaTime;
+        transform.position += _velocity * Time.deltaTime;
             transform.forward = _velocity;
-    }
+        */
 
+        
+    }
+    // idel
     public void Waypoints()
     {
         AddForce(Seek(waypoints[_actualIndex].position));
@@ -65,7 +77,7 @@ public class Enemy : MonoBehaviour
                 _actualIndex = 0;
         }
     }
-
+    //en hunt
     Vector3 Seek(Vector3 target)
     {
         var desired = target - transform.position;
@@ -85,6 +97,7 @@ public class Enemy : MonoBehaviour
         _velocity += dir;
     }
 
+    #region Infov
     public bool InFov(Transform obj)
     {
         var dir =  obj.position - transform.position;
@@ -102,10 +115,6 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    public void Calling(Vector3 position)
-    {
-        print("voy para alla");
-    }
 
     private void OnDrawGizmos()
     {
@@ -125,6 +134,14 @@ public class Enemy : MonoBehaviour
     {
         return new Vector3(Mathf.Sin(angle * Mathf.Deg2Rad), 0, Mathf.Cos(angle * Mathf.Deg2Rad));
     }
+    #endregion Infov
+
+
+    public void Calling(Vector3 position)
+    {
+        print("voy para alla");
+    }
+
 
     public void goposition(Vector3 pos)
     {

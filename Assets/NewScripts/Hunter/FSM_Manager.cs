@@ -16,7 +16,7 @@ public class FSM_Manager : MonoBehaviour
 
    public void execute()
     {
-        _actualState.onUpdate();
+         _actualState.onUpdate();
     }
 
   public  void ChangeState(string name)
