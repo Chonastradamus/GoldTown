@@ -26,6 +26,7 @@ public class Hunt :  Istate
         _ViewAngle = ViewAngle;
         
     }
+
     public void onEnter()
     {
         Debug.Log(" follow the enemy ");
@@ -35,14 +36,15 @@ public class Hunt :  Istate
     public void onUpdate()
     {
         if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
+        {
             AddForce(Seek(_target.position));
+           // GameManager.instance.Call += ;
+        }
         
-        
-/*
         else
         {
             fSM_.ChangeState("Patrol");
-        }*/
+        }
 
 
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
@@ -71,6 +73,11 @@ public class Hunt :  Istate
         Debug.Log("seek");
 
         return steering;
+    }
+
+    public void calling(Vector3 pos)
+    {
+
     }
 
 

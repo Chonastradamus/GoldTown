@@ -32,12 +32,11 @@ public class Patrol : Istate
         _ViewAngle = ViewAngle;
         
     }
+
     public void onEnter()
     {
         Debug.Log(" Patroling the area ");
-
-        /*Debug.Log("velocidad" + _maxVelocity);
-        Debug.Log("maxforce" + _maxForce);*/
+       // GameManager.instance.Call += calling();
     }
 
     public void onUpdate()
@@ -50,6 +49,12 @@ public class Patrol : Istate
         {
             Waypoints();
         }
+
+        /*if (GameManager.instance.Call())
+        {
+
+        }*/
+
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
         _MyPosition.transform.forward = _Velocity;
     }
@@ -93,4 +98,12 @@ public class Patrol : Istate
         return steering;
     }
 
+    public void calling(Vector3 pos)
+    {
+
+        fSM_.ChangeState("serchposition");
+
+    }
+
+    // pasar de estado al activar el evento haciendo que el que vio al enemigo lo persiga, mientras que los demas tienen que usar pathfinding para hacercarce al lugar. 
 }

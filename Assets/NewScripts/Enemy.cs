@@ -28,10 +28,10 @@ public class Enemy : MonoBehaviour
 
         _FSM.CreateState("idle", new thepath(_FSM));
 
-
+        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle));
         _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
         _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle));
-        _FSM.ChangeState("Hunt");
+        _FSM.ChangeState("Patrol");
     }
 
     void Update()
