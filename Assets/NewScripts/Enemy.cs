@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     public float maxForce;
     Vector3 _velocity;
     public Vector3 Velocity { get { return _velocity; } }
-    int _actualIndex;
+    [SerializeField] public int actualIndex;
     FSM_Manager _FSM;
     public int currentwaypoint;
 
@@ -83,17 +83,17 @@ public class Enemy : MonoBehaviour
     }
     public void Waypoints()
     {
-        AddForce(Seek(waypoints[_actualIndex].position));
+        AddForce(Seek(waypoints[actualIndex].position));
 
 
-        if (Vector3.Distance(transform.position, waypoints[_actualIndex].position) <= 0.3f)
+        if (Vector3.Distance(transform.position, waypoints[actualIndex].position) <= 0.3f)
         {
-            _actualIndex++;
+            actualIndex++;
 
-           currentwaypoint = _actualIndex;
+           currentwaypoint = actualIndex;
 
-            if (_actualIndex >= waypoints.Length)
-                _actualIndex = 0;
+            if (actualIndex >= waypoints.Length)
+                actualIndex = 0;
         }
     }
 

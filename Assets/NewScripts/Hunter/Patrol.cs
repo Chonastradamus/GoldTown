@@ -28,31 +28,16 @@ public class Patrol : Istate
 
     public void onUpdate()
     {
-       /* if (!Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle) && _enemy.Path.Count <= 0)
-        {
-            if (_enemy.Path.Count > 0)
-            {
-                Debug.Log(" Pathfinding ");
-
-                AddForce(Seek(_enemy.Path[0].transform.position));
-
-                if (Vector3.Distance(_MyPosition.gameObject.transform.position, _enemy.Path[0].transform.position) <= 0.3f) _enemy.Path.RemoveAt(0);
-
-                _MyPosition.transform.position += _Velocity * Time.deltaTime;
-                _MyPosition.transform.forward = _Velocity;
-
-            }
-            else
-            {
-                Waypoints();
-
-            }
-        }*/
+       
 
         if (Pathfinding.instance.InFov(_enemy.target, _enemy.transform, _enemy.distance, _enemy.ViewAngle))
         {
             fSM_.ChangeState("Hunt");
             GameManager.instance.Call(_enemy.target.position);
+        }
+        if (_enemy.reciv)
+        {
+            fSM_.ChangeState("serchposition");
         }
         else
         {
