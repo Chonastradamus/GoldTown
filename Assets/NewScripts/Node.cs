@@ -15,9 +15,6 @@ public class Node : MonoBehaviour
         {
             if(item != this)
             {
-
-                var dir = item.transform.position - transform.position;
-
                 if (GameManager.instance.InLineOfSight(this.transform.position,item.transform.position))
                 {
                     _neighbors.Add(item);

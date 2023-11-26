@@ -14,8 +14,6 @@ public class Patrol : Istate
     Vector3 _Velocity;
     float _distance, _ViewAngle;
 
-    GivePosition _GivePosition;
-
 
     public Patrol(FSM_Manager fsm, Transform[] _WP, Transform Target ,float MaxVelocity, float MaxForce, Transform EnemyPosition, int ActualIndex, Vector3 Velocity, float Distance, float ViewAngle)
     {
@@ -36,7 +34,8 @@ public class Patrol : Istate
     public void onEnter()
     {
         Debug.Log(" Patroling the area ");
-       // GameManager.instance.Call += calling();
+
+
     }
 
     public void onUpdate()
@@ -44,16 +43,12 @@ public class Patrol : Istate
         if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
         {
             fSM_.ChangeState("Hunt");
+            GameManager.instance.Call(_target.position);
         }
         else
         {
             Waypoints();
         }
-
-        /*if (GameManager.instance.Call())
-        {
-
-        }*/
 
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
         _MyPosition.transform.forward = _Velocity;
@@ -68,7 +63,7 @@ public class Patrol : Istate
     {
         AddForce(Seek(_Waypoints[_actualIndex].position));
 
-        Debug.Log("waypoints");
+       // Debug.Log("waypoints");
 
         if (Vector3.Distance(_MyPosition.transform.position, _Waypoints[_actualIndex].position) <= 0.3f)
         {
@@ -93,17 +88,9 @@ public class Patrol : Istate
         var steering = desired - _Velocity;
         steering = Vector3.ClampMagnitude(steering, _maxForce);
 
-       // Debug.Log("seek");
-
         return steering;
     }
 
-    public void calling(Vector3 pos)
-    {
 
-        fSM_.ChangeState("serchposition");
 
-    }
-
-    // pasar de estado al activar el evento haciendo que el que vio al enemigo lo persiga, mientras que los demas tienen que usar pathfinding para hacercarce al lugar. 
 }

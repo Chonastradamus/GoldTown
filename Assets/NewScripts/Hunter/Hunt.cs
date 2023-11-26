@@ -11,10 +11,11 @@ public class Hunt :  Istate
     Transform _MyPosition;
     Vector3 _Velocity;
     float _distance, _ViewAngle;
+    Enemy _enemy;
 
 
 
-    public Hunt(FSM_Manager fsm, Transform Target, float MaxVelocity, float MaxForce, Transform MyPosition, Vector3 Velocity, float Distance, float ViewAngle)
+    public Hunt(FSM_Manager fsm, Transform Target, float MaxVelocity, float MaxForce, Transform MyPosition, Vector3 Velocity, float Distance, float ViewAngle, Enemy enemy)
     {
         fSM_ = fsm;
         _target = Target;
@@ -24,13 +25,14 @@ public class Hunt :  Istate
         _Velocity = Velocity;
         _distance = Distance;
         _ViewAngle = ViewAngle;
+        _enemy = enemy;
         
     }
 
     public void onEnter()
     {
         Debug.Log(" follow the enemy ");
-
+        GameManager.instance.Call += calling;
     }
 
     public void onUpdate()
@@ -38,9 +40,18 @@ public class Hunt :  Istate
         if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
         {
             AddForce(Seek(_target.position));
-           // GameManager.instance.Call += ;
+            GameManager.instance.Call(_target.transform.position);
+
+            foreach (var item in GameManager.instance.enemis)
+            {
+                item.reciv = true;
+            }
+            
         }
-        
+        else if(_enemy.reciv)
+        {
+            fSM_.ChangeState("serchposition");
+        }  
         else
         {
             fSM_.ChangeState("Patrol");
@@ -77,8 +88,6 @@ public class Hunt :  Istate
 
     public void calling(Vector3 pos)
     {
-
+        fSM_.ChangeState("serchposition");
     }
-
-
 }

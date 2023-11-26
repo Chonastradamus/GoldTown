@@ -17,7 +17,11 @@ public class Enemy : MonoBehaviour
     int _actualIndex;
     FSM_Manager _FSM;
 
+    public Node initial;
+    public Node Goal;
+    public List<Node> Path;
 
+    public bool reciv; 
 
     void Awake()
     {
@@ -28,9 +32,9 @@ public class Enemy : MonoBehaviour
 
         _FSM.CreateState("idle", new thepath(_FSM));
 
-        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle));
+        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle, initial, Goal, Path, _velocity, maxVelocity, maxForce));
         _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
-        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle, this));
         _FSM.ChangeState("Patrol");
     }
 
@@ -71,7 +75,8 @@ public class Enemy : MonoBehaviour
 
     public void goposition(Vector3 pos)
     {
-        
+
+        _FSM.ChangeState("serchposition");
     }
 
 }
