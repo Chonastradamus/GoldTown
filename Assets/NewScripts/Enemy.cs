@@ -6,7 +6,7 @@ using System;
 public class Enemy : MonoBehaviour
 {
     public float distance,ViewAngle;
-    [SerializeField] Transform target;
+    [SerializeField] public Transform target;
 
     public Transform[] waypoints;
 
@@ -31,11 +31,11 @@ public class Enemy : MonoBehaviour
 
         _FSM = new FSM_Manager();
 
-        _FSM.CreateState("idle", new thepath(_FSM));
+        _FSM.CreateState("Patrol", new Patrol(_FSM,  this));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, this));
+        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, this));
+        _FSM.CreateState("GoToPatrol", new GoToPAtrol(_FSM, this));
 
-        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle, initial, Goal, Path, _velocity, maxVelocity, maxForce, this));
-        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle, this, initial, Goal, Path));
-        _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle, this));
         _FSM.ChangeState("Patrol");
     }
 
@@ -81,5 +81,38 @@ public class Enemy : MonoBehaviour
 
         _FSM.ChangeState("serchposition");
     }
+    public void Waypoints()
+    {
+        AddForce(Seek(waypoints[_actualIndex].position));
+
+
+        if (Vector3.Distance(transform.position, waypoints[_actualIndex].position) <= 0.3f)
+        {
+            _actualIndex++;
+
+           currentwaypoint = _actualIndex;
+
+            if (_actualIndex >= waypoints.Length)
+                _actualIndex = 0;
+        }
+    }
+
+    public void AddForce(Vector3 dir)
+    {
+        _velocity += dir;
+    }
+
+    public Vector3 Seek(Vector3 target)
+    {
+        var desired = target - this.transform.position;
+        desired.Normalize();
+        desired *= maxVelocity;
+
+        var steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, maxForce);
+
+        return steering;
+    }
+
 
 }

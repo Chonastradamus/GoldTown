@@ -5,26 +5,14 @@ using UnityEngine;
 public class Hunt :  Istate
 {
     FSM_Manager fSM_;
-    float _maxVelocity;
-    float _maxForce;
-    Transform _target;
-    Transform _MyPosition;
-    Vector3 _Velocity;
-    float _distance, _ViewAngle;
+ 
     Enemy _enemy;
 
 
 
-    public Hunt(FSM_Manager fsm, Transform Target, float MaxVelocity, float MaxForce, Transform MyPosition, Vector3 Velocity, float Distance, float ViewAngle, Enemy enemy)
+    public Hunt(FSM_Manager fsm,  Enemy enemy)
     {
         fSM_ = fsm;
-        _target = Target;
-        _maxVelocity = MaxVelocity;
-        _maxForce = MaxForce;
-        _MyPosition = MyPosition;
-        _Velocity = Velocity;
-        _distance = Distance;
-        _ViewAngle = ViewAngle;
         _enemy = enemy;
         
     }
@@ -37,10 +25,10 @@ public class Hunt :  Istate
 
     public void onUpdate()
     {
-        if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
+        if (Pathfinding.instance.InFov(_enemy.target, _enemy.transform, _enemy.distance, _enemy.ViewAngle))
         {
-            AddForce(Seek(_target.position));
-            GameManager.instance.Call(_target.transform.position);
+            _enemy.AddForce(_enemy.Seek(_enemy.target.position));
+            GameManager.instance.Call(_enemy.target.position);
 
             foreach (var item in GameManager.instance.enemis)
             {
@@ -58,8 +46,8 @@ public class Hunt :  Istate
         }
 
 
-        _MyPosition.transform.position += _Velocity * Time.deltaTime;
-        _MyPosition.transform.forward = _Velocity;
+        _enemy.transform.position += _enemy.Velocity * Time.deltaTime;
+        _enemy.transform.forward = _enemy.Velocity;
     }
 
     public void OnExit()
@@ -67,24 +55,7 @@ public class Hunt :  Istate
        // Debug.Log(" I don�t found the Enemy ");
     }
 
-    public void AddForce(Vector3 dir)
-    {
-        _Velocity += dir;
-    }
-
-    Vector3 Seek(Vector3 target)
-    {
-        var desired = target - _MyPosition.transform.position;
-        desired.Normalize();
-        desired *= _maxVelocity;
-
-        var steering = desired - _Velocity;
-        steering = Vector3.ClampMagnitude(steering, _maxForce);
-
-       // Debug.Log("seek");
-
-        return steering;
-    }
+  
 
     public void calling(Vector3 pos)
     {
