@@ -13,9 +13,13 @@ public class Patrol : Istate
     int _actualIndex;
     Vector3 _Velocity;
     float _distance, _ViewAngle;
+    Enemy _enemy;
 
+    Node _InitialNode;
+    Node _FinalNode;
+    List<Node> _Path;
 
-    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform Target ,float MaxVelocity, float MaxForce, Transform EnemyPosition, int ActualIndex, Vector3 Velocity, float Distance, float ViewAngle)
+    public Patrol(FSM_Manager fsm, Transform[] _WP, Transform Target ,float MaxVelocity, float MaxForce, Transform EnemyPosition, int ActualIndex, Vector3 Velocity, float Distance, float ViewAngle, Enemy enemy, Node initial, Node goal, List<Node> Path)
     {
         fSM_ = fsm;
 
@@ -28,27 +32,51 @@ public class Patrol : Istate
         _Velocity = Velocity;
         _distance = Distance;
         _ViewAngle = ViewAngle;
+        _enemy = enemy;
+        _InitialNode = initial;
+        _FinalNode = goal;
+        _Path = Path;
         
     }
 
     public void onEnter()
     {
-        Debug.Log(" Patroling the area ");
 
+        _InitialNode = ManagerNode.Instance.NearsNode(_MyPosition);
+        _FinalNode = ManagerNode.Instance.NearsNode(_target);
 
+        _Path = Pathfinding.instance.CalculateAStar(_InitialNode, _FinalNode);
     }
 
     public void onUpdate()
     {
+        if (!Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle) && _enemy.Path.Count <= 0)
+        {
+            if (_enemy.Path.Count > 0)
+            {
+                Debug.Log(" Pathfinding ");
+
+                AddForce(Seek(_enemy.Path[0].transform.position));
+
+                if (Vector3.Distance(_MyPosition.gameObject.transform.position, _enemy.Path[0].transform.position) <= 0.3f) _enemy.Path.RemoveAt(0);
+
+                _MyPosition.transform.position += _Velocity * Time.deltaTime;
+                _MyPosition.transform.forward = _Velocity;
+
+            }
+            else
+            {
+                Waypoints();
+
+            }
+        }
+
         if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
         {
             fSM_.ChangeState("Hunt");
             GameManager.instance.Call(_target.position);
         }
-        else
-        {
-            Waypoints();
-        }
+
 
         _MyPosition.transform.position += _Velocity * Time.deltaTime;
         _MyPosition.transform.forward = _Velocity;
@@ -56,18 +84,19 @@ public class Patrol : Istate
 
     public void OnExit()
     {
-        Debug.Log(" I see a enemy ");
+        //Debug.Log(" I see a enemy ");
     }
     
     public void Waypoints()
     {
         AddForce(Seek(_Waypoints[_actualIndex].position));
 
-       // Debug.Log("waypoints");
 
         if (Vector3.Distance(_MyPosition.transform.position, _Waypoints[_actualIndex].position) <= 0.3f)
         {
             _actualIndex++;
+
+            _enemy.currentwaypoint = _actualIndex;
 
             if (_actualIndex >= _Waypoints.Length)
                 _actualIndex = 0;

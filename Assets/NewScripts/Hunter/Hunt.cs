@@ -31,7 +31,7 @@ public class Hunt :  Istate
 
     public void onEnter()
     {
-        Debug.Log(" follow the enemy ");
+        //Debug.Log(" follow the enemy ");
         GameManager.instance.Call += calling;
     }
 
@@ -64,7 +64,7 @@ public class Hunt :  Istate
 
     public void OnExit()
     {
-        Debug.Log(" I don�t found the Enemy ");
+       // Debug.Log(" I don�t found the Enemy ");
     }
 
     public void AddForce(Vector3 dir)
@@ -81,7 +81,7 @@ public class Hunt :  Istate
         var steering = desired - _Velocity;
         steering = Vector3.ClampMagnitude(steering, _maxForce);
 
-        Debug.Log("seek");
+       // Debug.Log("seek");
 
         return steering;
     }

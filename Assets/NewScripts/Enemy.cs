@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public Vector3 Velocity { get { return _velocity; } }
     int _actualIndex;
     FSM_Manager _FSM;
+    public int currentwaypoint;
 
     public Node initial;
     public Node Goal;
@@ -32,8 +33,8 @@ public class Enemy : MonoBehaviour
 
         _FSM.CreateState("idle", new thepath(_FSM));
 
-        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle, initial, Goal, Path, _velocity, maxVelocity, maxForce));
-        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
+        _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, target, transform, distance, ViewAngle, initial, Goal, Path, _velocity, maxVelocity, maxForce, this));
+        _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle, this, initial, Goal, Path));
         _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle, this));
         _FSM.ChangeState("Patrol");
     }
@@ -41,6 +42,8 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         _FSM.execute();
+
+      
     }
 
     #region ShowGizmos
