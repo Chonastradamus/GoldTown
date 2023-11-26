@@ -35,14 +35,14 @@ public class Hunt :  Istate
     public void onUpdate()
     {
         if (Pathfinding.instance.InFov(_target, _MyPosition, _distance, _ViewAngle))
-        {
             AddForce(Seek(_target.position));
-        }
-
+        
+        
+/*
         else
         {
             fSM_.ChangeState("Patrol");
-        }
+        }*/
 
 
         _MyPosition.transform.position += _Velocity * Time.deltaTime;

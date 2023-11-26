@@ -6,7 +6,7 @@ using System;
 public class Enemy : MonoBehaviour
 {
     public float distance,ViewAngle;
-    public Transform target;
+    [SerializeField] Transform target;
 
     public Transform[] waypoints;
 
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
 
         _FSM.CreateState("Patrol", new Patrol(_FSM, waypoints, target ,maxVelocity , maxForce, transform, _actualIndex, _velocity, distance, ViewAngle));
         _FSM.CreateState("Hunt", new Hunt(_FSM, target, maxVelocity, maxForce, transform, _velocity, distance, ViewAngle));
-        _FSM.ChangeState("Patrol");
+        _FSM.ChangeState("Hunt");
     }
 
     void Update()
