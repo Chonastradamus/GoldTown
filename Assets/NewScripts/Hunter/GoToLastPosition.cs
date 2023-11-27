@@ -22,7 +22,8 @@ public class GoToLastPosition : Istate
 
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.target);
-        
+        _enemy.reciv = false;
+
         _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
     }
 
@@ -44,8 +45,7 @@ public class GoToLastPosition : Istate
                 if (Vector3.Distance(_enemy.transform.gameObject.transform.position, _enemy.Path[0].transform.position) <= 0.3f) _enemy.Path.RemoveAt(0);
                 _enemy.transform.position += _enemy.Velocity * Time.deltaTime;
                 _enemy.transform.forward = _enemy.Velocity;
-                _enemy.reciv = false;
-
+                
             }
             if (!_enemy.reciv)
             {
