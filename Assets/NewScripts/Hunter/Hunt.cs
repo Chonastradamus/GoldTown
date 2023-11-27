@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Hunt :  Istate
 {
-    FSM_Manager fSM_;
  
+    FSM_Manager fSM_;
     Enemy _enemy;
+    Transform _player;
 
 
 
-    public Hunt(FSM_Manager fsm,  Enemy enemy)
+    public Hunt(FSM_Manager fsm,  Enemy enemy, Transform target)
     {
         fSM_ = fsm;
         _enemy = enemy;
+        _player = target;
         
     }
 
@@ -21,7 +23,7 @@ public class Hunt :  Istate
     {
         //Debug.Log(" follow the enemy ");
    
-        GameManager.instance.Call(_enemy.target.position);
+        GameManager.instance.Call(_player.position);
 
     }
 
@@ -29,7 +31,7 @@ public class Hunt :  Istate
     {
         if (Pathfinding.instance.InFov(_enemy.target, _enemy.transform, _enemy.distance, _enemy.ViewAngle))
         {
-            _enemy.AddForce(_enemy.Seek(_enemy.target.position));
+            _enemy.AddForce(_enemy.Seek(_player.position));
 
             foreach (var item in GameManager.instance.enemis)
             {
@@ -37,7 +39,7 @@ public class Hunt :  Istate
             }
             
         }
-        else if(_enemy.reciv)
+       if(_enemy.reciv)
         {
             fSM_.ChangeState("serchposition");
         }  

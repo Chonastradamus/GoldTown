@@ -3811,6 +3811,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RED_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4518486689613572695, guid: eaa7406df1ba1dc45a5965c019b050c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8801366527988618633, guid: eaa7406df1ba1dc45a5965c019b050c8, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -4784,6 +4788,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 142063240}
+    - target: {fileID: 8901283170110272657, guid: 52662988593cca8449a0fd1ca90e6c56, type: 3}
+      propertyPath: enemis.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8901283170110272657, guid: 52662988593cca8449a0fd1ca90e6c56, type: 3}
       propertyPath: enemis.Array.data[0]
       value: 

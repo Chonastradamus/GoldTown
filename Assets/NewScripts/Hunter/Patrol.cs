@@ -20,10 +20,10 @@ public class Patrol : Istate
 
     public void onEnter()
     {
-
+        /*
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.target);
-        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);*/
         GameManager.instance.Call += calling;
     }
 
@@ -34,7 +34,7 @@ public class Patrol : Istate
         if (Pathfinding.instance.InFov(_enemy.target, _enemy.transform, _enemy.distance, _enemy.ViewAngle))
         {
             fSM_.ChangeState("Hunt");
-            GameManager.instance.Call(_enemy.target.position);
+            //GameManager.instance.Call(_enemy.target.position);
         }
         if (_enemy.reciv)
         {

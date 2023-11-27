@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         _FSM = new FSM_Manager();
 
         _FSM.CreateState("Patrol", new Patrol(_FSM,  this));
-        _FSM.CreateState("Hunt", new Hunt(_FSM, this));
+        _FSM.CreateState("Hunt", new Hunt(_FSM, this, target));
         _FSM.CreateState("serchposition", new GoToLastPosition(_FSM, this));
         _FSM.CreateState("GoToPatrol", new GoToPAtrol(_FSM, this));
 
