@@ -20,10 +20,18 @@ public class GoToLastPosition : Istate
     {
         Debug.Log($" {_enemy.gameObject.name} calculo a star ");
 
+        if (_enemy.Path == null)
+        {
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.target);
-        
-        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+        _enemy.Path = Pathfinding.instance.CalculateThetaStar(_enemy.initial, _enemy.Goal);
+
+        }
+
+        if(_enemy.Path.Count == 0)
+        {
+              _FSM.ChangeState("GoToPatrol");
+        }
     }
 
     public void onUpdate()
@@ -47,10 +55,11 @@ public class GoToLastPosition : Istate
                 _enemy.reciv = false;
 
             }
-            if (!_enemy.reciv)
-            {
-                _FSM.ChangeState("GoToPatrol");
-            }
+            if (!_enemy.reciv ||  _enemy.Path.Count == 0)
+                {
+                    _FSM.ChangeState("GoToPatrol");
+                }
+            
             else
             {
                 _FSM.ChangeState("Patrol");

@@ -14,6 +14,7 @@ public class Pathfinding : MonoBehaviour
    
     public List<Node> CalculateAStar(Node startingNode, Node goalNode)
     {
+        
         PriorityQueue<Node> frontier = new PriorityQueue<Node>();
         frontier.Enqueue(startingNode, 0);
 
@@ -89,6 +90,7 @@ public class Pathfinding : MonoBehaviour
 
                 while (current != startingNode)
                 {
+
                     path.Add(current);
                     current = cameFrom[current];
 
@@ -183,9 +185,9 @@ public class Pathfinding : MonoBehaviour
         {
 
             // calcula el angulo entre yo mirando adelante y la posicion del jugador y si este es menor o igual a un angulo que dicemos de los dos lados
-            if (Vector3.Angle(transform.forward, dir) <= viewAgle * 0.5)
+            if (Vector3.Angle(myPosition.forward, dir) <= viewAgle * 0.5)
             {
-                return GameManager.instance.InLineOfSight(transform.position, obj.position);
+                return GameManager.instance.InLineOfSight(myPosition.position, obj.position);
             }
         }
 

@@ -17,9 +17,13 @@ public class GoToPAtrol : Istate
 
     public void onEnter()
     {
-        _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
-        _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.waypoints[_enemy.actualIndex + 1]);
-        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+        if (_enemy.Path == null)
+        {
+            _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
+            _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.waypoints[_enemy.actualIndex + 1]);
+            _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+
+        }
     }
 
 

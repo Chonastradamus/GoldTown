@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
         AddForce(Seek(waypoints[actualIndex].position));
 
 
-        if (Vector3.Distance(transform.position, waypoints[actualIndex].position) <= 0.3f)
+        if (Vector3.Distance(transform.position, waypoints[actualIndex].position) <= 0.5f)
         {
             actualIndex++;
 

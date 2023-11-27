@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 public class Patrol : Istate
@@ -22,8 +23,8 @@ public class Patrol : Istate
 
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.target);
-
         _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+        GameManager.instance.Call += calling;
     }
 
     public void onUpdate()
@@ -53,9 +54,14 @@ public class Patrol : Istate
     public void OnExit()
     {
         //Debug.Log(" I see a enemy ");
+        GameManager.instance.Call -= calling;
     }
-    
 
+
+    public void calling(Vector3 pos)
+    {
+        fSM_.ChangeState("serchposition");
+    }
 
 
 }

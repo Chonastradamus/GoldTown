@@ -20,7 +20,9 @@ public class Hunt :  Istate
     public void onEnter()
     {
         //Debug.Log(" follow the enemy ");
-        GameManager.instance.Call += calling;
+   
+        GameManager.instance.Call(_enemy.target.position);
+
     }
 
     public void onUpdate()
@@ -28,7 +30,6 @@ public class Hunt :  Istate
         if (Pathfinding.instance.InFov(_enemy.target, _enemy.transform, _enemy.distance, _enemy.ViewAngle))
         {
             _enemy.AddForce(_enemy.Seek(_enemy.target.position));
-            GameManager.instance.Call(_enemy.target.position);
 
             foreach (var item in GameManager.instance.enemis)
             {
@@ -57,8 +58,4 @@ public class Hunt :  Istate
 
   
 
-    public void calling(Vector3 pos)
-    {
-        fSM_.ChangeState("serchposition");
-    }
 }
