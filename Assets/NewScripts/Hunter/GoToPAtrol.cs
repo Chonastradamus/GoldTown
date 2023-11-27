@@ -20,6 +20,7 @@ public class GoToPAtrol : Istate
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.waypoints[_enemy.actualIndex + 1]);
         _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+ 
     }
 
 
@@ -41,7 +42,7 @@ public class GoToPAtrol : Istate
                 if (Vector3.Distance(_enemy.transform.gameObject.transform.position, _enemy.Path[0].transform.position) <= 0.3f) _enemy.Path.RemoveAt(0);
                 _enemy.transform.position += _enemy.Velocity * Time.deltaTime;
                 _enemy.transform.forward = _enemy.Velocity;
-                _enemy.reciv = false;
+           
 
             }
             else

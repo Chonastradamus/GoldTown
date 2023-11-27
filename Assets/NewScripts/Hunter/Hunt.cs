@@ -21,6 +21,10 @@ public class Hunt :  Istate
     {
         //Debug.Log(" follow the enemy ");
         GameManager.instance.Call += calling;
+        foreach (var item in GameManager.instance.enemis)
+        {
+            item.reciv = true;
+        }
     }
 
     public void onUpdate()
@@ -30,10 +34,7 @@ public class Hunt :  Istate
             _enemy.AddForce(_enemy.Seek(_enemy.target.position));
             GameManager.instance.Call(_enemy.target.position);
 
-            foreach (var item in GameManager.instance.enemis)
-            {
-                item.reciv = true;
-            }
+         
             
         }
         else if(_enemy.reciv)
@@ -53,12 +54,14 @@ public class Hunt :  Istate
     public void OnExit()
     {
        // Debug.Log(" I don�t found the Enemy ");
+   
     }
 
   
 
     public void calling(Vector3 pos)
     {
-        fSM_.ChangeState("serchposition");
+
+            fSM_.ChangeState("serchposition");
     }
 }

@@ -14,6 +14,8 @@ public class Patrol : Istate
         fSM_ = fsm;
         _enemy = enemy;
 
+       
+            _enemy.reciv = false;
         
     }
 
