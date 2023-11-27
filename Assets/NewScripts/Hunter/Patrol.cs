@@ -23,7 +23,12 @@ public class Patrol : Istate
         _enemy.initial = ManagerNode.Instance.NearsNode(_enemy.transform);
         _enemy.Goal = ManagerNode.Instance.NearsNode(_enemy.target);
 
-        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.initial, _enemy.Goal);
+        _enemy.Path = Pathfinding.instance.CalculateAStar(_enemy.Goal, _enemy.initial);
+
+        if (_enemy.reciv)
+        {
+            fSM_.ChangeState("serchposition");
+        }
     }
 
     public void onUpdate()

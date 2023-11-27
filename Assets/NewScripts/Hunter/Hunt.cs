@@ -33,10 +33,7 @@ public class Hunt :  Istate
            
             
         }
-        else if(_enemy.reciv)
-        {
-            fSM_.ChangeState("serchposition");
-        }  
+     
         else
         {
             fSM_.ChangeState("Patrol");
@@ -57,9 +54,6 @@ public class Hunt :  Istate
     public void calling(Vector3 pos)
     {
         fSM_.ChangeState("serchposition");
-        foreach (var item in GameManager.instance.enemis)
-        {
-            item.reciv = true;
-        }
+      
     }
 }
